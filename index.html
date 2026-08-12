@@ -150,8 +150,8 @@
   #btnYes {
     background: linear-gradient(135deg, #ff7ba3, #ff4d88);
     color: #fff;
-    font-size: 18px;
-    padding: 12px 34px;
+    font-size: 16px;
+    padding: 10px 28px;
     box-shadow: 0 10px 26px rgba(255, 77, 136, 0.42);
   }
   #btnYes:hover {
@@ -378,15 +378,12 @@
     h1 { font-size: 22px; margin: 4px 0 8px; line-height: 1.35; }
     .subtitle { font-size: 12px; margin-bottom: 18px; }
     .btns { gap: 14px; }
-    #btnYes { padding: 9px 24px; font-size: 16px; }
+    #btnYes { padding: 8px 20px; font-size: 14px; }
     #btnNo { padding: 9px 24px; font-size: 14px; }
     .counter-note { font-size: 12px; margin-top: 16px; min-height: 18px; }
 
-    /* 手机没有鼠标悬停，音量条常驻显示 */
+    /* 手机：点音乐按钮时显示音量条（点击页面其他地方收起） */
     .volume-wrap {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
       top: 74px;
       right: 12px;
       padding: 6px 12px;
@@ -527,7 +524,17 @@
   musicBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     toggleMusic();
+    // 手机端：点音乐按钮顺便显示/收起音量条
+    if (window.innerWidth <= 480) {
+      volumeWrap.classList.toggle('show');
+    }
   });
+
+  // 手机端：点音量条内部不冒泡，点页面其他地方收起音量条
+  if (window.innerWidth <= 480) {
+    volumeWrap.addEventListener('click', (e) => e.stopPropagation());
+    document.addEventListener('click', () => volumeWrap.classList.remove('show'));
+  }
 
   music.addEventListener('error', () => {
     showTip('未找到音乐文件，把 music.mp3 放到同目录 🎶');
@@ -555,6 +562,7 @@
 
   let noCount = 0;
   let yesScale = 1;
+  let noScale = 1;
 
   const noTexts = [
     '你认真的吗？😳',
@@ -572,16 +580,16 @@
     noCount++;
 
     // 「可以」按钮用 transform: scale 放大 —— 不占布局空间，卡片高度不变
-    const yesMaxScale = window.innerWidth <= 480 ? 1.4 : 2.0;
-    const yesStep = window.innerWidth <= 480 ? 0.07 : 0.1;
+    const yesMaxScale = window.innerWidth <= 480 ? 1.5 : 2.0;
+    const yesStep = window.innerWidth <= 480 ? 0.08 : 0.12;
     yesScale = Math.min(yesScale + yesStep, yesMaxScale);
     btnYes.style.transform = 'scale(' + yesScale + ')';
 
-    // 「不可以」按钮换文案 + 抖动（每次点击缩小一点）
+    // 「不可以」按钮换文案 + 抖动，每次点击 scale 缩小一点（也不占布局）
     if (noCount < noTexts.length) {
       btnNo.textContent = noTexts[noCount];
-      btnNo.style.fontSize = Math.max(16 - noCount * 1.6, 11) + 'px';
-      btnNo.style.padding = Math.max(11 - noCount, 5) + 'px ' + Math.max(32 - noCount * 3.5, 12) + 'px';
+      noScale = Math.max(1 - noCount * 0.07, 0.55);
+      btnNo.style.transform = 'scale(' + noScale + ')';
       btnNo.classList.remove('btn-no-shake');
       void btnNo.offsetWidth; // 重启动画
       btnNo.classList.add('btn-no-shake');
