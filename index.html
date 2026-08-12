@@ -554,7 +554,7 @@
   const card    = document.getElementById('card');
 
   let noCount = 0;
-  let yesSize = 22;
+  let yesScale = 1;
 
   const noTexts = [
     '你认真的吗？😳',
@@ -571,12 +571,11 @@
   btnNo.addEventListener('click', () => {
     noCount++;
 
-    // 「可以」按钮越点越大（限制尺寸上限，只放大按钮、不撑大卡片）
-    const yesMax = window.innerWidth <= 480 ? 32 : 50;
-    const yesStep = window.innerWidth <= 480 ? 3 : 4;
-    yesSize = Math.min(yesSize + yesStep, yesMax);
-    btnYes.style.fontSize = yesSize + 'px';
-    btnYes.style.padding = Math.min(11 + noCount * 2, 18) + 'px ' + Math.min(28 + noCount * 3, 44) + 'px';
+    // 「可以」按钮用 transform: scale 放大 —— 不占布局空间，卡片高度不变
+    const yesMaxScale = window.innerWidth <= 480 ? 1.3 : 1.8;
+    const yesStep = window.innerWidth <= 480 ? 0.06 : 0.08;
+    yesScale = Math.min(yesScale + yesStep, yesMaxScale);
+    btnYes.style.transform = 'scale(' + yesScale + ')';
 
     // 「不可以」按钮换文案 + 抖动
     if (noCount < noTexts.length) {
