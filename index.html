@@ -150,8 +150,8 @@
   #btnYes {
     background: linear-gradient(135deg, #ff7ba3, #ff4d88);
     color: #fff;
-    font-size: 22px;
-    padding: 16px 46px;
+    font-size: 18px;
+    padding: 12px 34px;
     box-shadow: 0 10px 26px rgba(255, 77, 136, 0.42);
   }
   #btnYes:hover {
@@ -163,8 +163,8 @@
   #btnNo {
     background: #fff;
     color: var(--rose-600);
-    font-size: 18px;
-    padding: 13px 38px;
+    font-size: 16px;
+    padding: 11px 32px;
     border: 2px solid var(--pink-300);
     box-shadow: 0 6px 16px rgba(255, 157, 184, 0.3);
   }
@@ -378,8 +378,8 @@
     h1 { font-size: 22px; margin: 4px 0 8px; line-height: 1.35; }
     .subtitle { font-size: 12px; margin-bottom: 18px; }
     .btns { gap: 14px; }
-    #btnYes { padding: 12px 30px; }
-    #btnNo { padding: 11px 28px; font-size: 15px; }
+    #btnYes { padding: 9px 24px; font-size: 16px; }
+    #btnNo { padding: 9px 24px; font-size: 14px; }
     .counter-note { font-size: 12px; margin-top: 16px; min-height: 18px; }
 
     /* 手机没有鼠标悬停，音量条常驻显示 */
@@ -572,16 +572,16 @@
     noCount++;
 
     // 「可以」按钮用 transform: scale 放大 —— 不占布局空间，卡片高度不变
-    const yesMaxScale = window.innerWidth <= 480 ? 1.3 : 1.8;
-    const yesStep = window.innerWidth <= 480 ? 0.06 : 0.08;
+    const yesMaxScale = window.innerWidth <= 480 ? 1.4 : 2.0;
+    const yesStep = window.innerWidth <= 480 ? 0.07 : 0.1;
     yesScale = Math.min(yesScale + yesStep, yesMaxScale);
     btnYes.style.transform = 'scale(' + yesScale + ')';
 
-    // 「不可以」按钮换文案 + 抖动
+    // 「不可以」按钮换文案 + 抖动（每次点击缩小一点）
     if (noCount < noTexts.length) {
       btnNo.textContent = noTexts[noCount];
-      btnNo.style.fontSize = Math.max(18 - noCount * 1.5, 12) + 'px';
-      btnNo.style.padding = Math.max(13 - noCount * 0.8, 6) + 'px ' + Math.max(38 - noCount * 3, 14) + 'px';
+      btnNo.style.fontSize = Math.max(16 - noCount * 1.6, 11) + 'px';
+      btnNo.style.padding = Math.max(11 - noCount, 5) + 'px ' + Math.max(32 - noCount * 3.5, 12) + 'px';
       btnNo.classList.remove('btn-no-shake');
       void btnNo.offsetWidth; // 重启动画
       btnNo.classList.add('btn-no-shake');
