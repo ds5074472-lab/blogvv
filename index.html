@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💗 可以成为我的恋人吗？💗</title>
+<style>
+  :root {
+    --pink-100: #fff5f8;
+    --pink-200: #ffe4ec;
+    --pink-300: #ffc2d4;
+    --pink-400: #ff9db8;
+    --rose-500: #ff5c8a;
+    --rose-600: #f43d7f;
+    --deep-700: #c2185b;
+    --ink: #7a2b47;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    background: linear-gradient(160deg, #ffe9f0 0%, #ffd0dd 45%, #ffb3cb 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    color: var(--ink);
+  }
+
+  /* ---------- 背景漂浮爱心 ---------- */
+  .bg-hearts {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .bg-hearts span {
+    position: absolute;
+    bottom: -10vh;
+    font-size: 28px;
+    opacity: 0;
+    animation: floatUp linear infinite;
+    will-change: transform, opacity;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.55; }
+    90%  { opacity: 0.45; }
+    100% { transform: translateY(-115vh) rotate(30deg); opacity: 0; }
+  }
+
+  /* ---------- 主卡片 ---------- */
+  .card {
+    position: relative;
+    z-index: 1;
+    width: min(92vw, 460px);
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    border-radius: 30px;
+    padding: 44px 34px 40px;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(194, 24, 91, 0.22), 0 4px 14px rgba(255, 92, 138, 0.12);
+    opacity: 0;
+    transform: translateY(28px) scale(0.96);
+    animation: cardIn 0.9s cubic-bezier(0.22, 1.2, 0.36, 1) forwards;
+  }
+  @keyframes cardIn {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .emoji-top {
+    font-size: 52px;
+    animation: bounce 2s ease-in-out infinite;
+    display: inline-block;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0) rotate(-4deg); }
+    50%      { transform: translateY(-10px) rotate(4deg); }
+  }
+
+  .deco-line {
+    font-size: 18px;
+    letter-spacing: 6px;
+    color: var(--rose-500);
+    margin: 10px 0 6px;
+    opacity: 0.85;
+  }
+
+  h1 {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--deep-700);
+    margin: 6px 0 12px;
+    line-height: 1.4;
+    text-shadow: 0 2px 12px rgba(255, 92, 138, 0.25);
+  }
+  h1 .heartbeat {
+    display: inline-block;
+    animation: heartbeat 1.3s ease-in-out infinite;
+    transform-origin: center;
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    25%      { transform: scale(1.18); }
+    40%      { transform: scale(1); }
+    60%      { transform: scale(1.14); }
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: #b3567a;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+  }
+
+  /* ---------- 按钮 ---------- */
+  .btns {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .btn {
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    font-weight: 700;
+    font-family: inherit;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.25s ease,
+                background 0.25s ease,
+                opacity 0.25s ease;
+    will-change: transform;
+  }
+
+  #btnYes {
+    background: linear-gradient(135deg, #ff7ba3, #ff4d88);
+    color: #fff;
+    font-size: 22px;
+    padding: 16px 46px;
+    box-shadow: 0 10px 26px rgba(255, 77, 136, 0.42);
+  }
+  #btnYes:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 14px 32px rgba(255, 77, 136, 0.5);
+  }
+  #btnYes:active { transform: scale(0.96); }
+
+  #btnNo {
+    background: #fff;
+    color: var(--rose-600);
+    font-size: 18px;
+    padding: 13px 38px;
+    border: 2px solid var(--pink-300);
+    box-shadow: 0 6px 16px rgba(255, 157, 184, 0.3);
+  }
+  #btnNo:hover {
+    background: var(--pink-100);
+    transform: translateY(-2px) rotate(-2deg);
+  }
+  .btn-no-shake { animation: shake 0.4s ease; }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+  }
+
+  .counter-note {
+    margin-top: 26px;
+    font-size: 13px;
+    color: #c97c9c;
+    min-height: 20px;
+    letter-spacing: 1px;
+  }
+
+  /* ---------- 成功画面 ---------- */
+  .success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0 6px;
+  }
+  .success .big {
+    font-size: 60px;
+    animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  .success h2 {
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--deep-700);
+    letter-spacing: 4px;
+    animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
+  }
+  .success h2 .heartbeat { animation: heartbeat 1.3s ease-in-out 0.5s infinite; }
+  .success p {
+    font-size: 17px;
+    color: var(--rose-600);
+    animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+  }
+  @keyframes popIn {
+    0% { opacity: 0; transform: scale(0.3); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  /* ---------- 开始播放开场页 ---------- */
+  .start-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: linear-gradient(160deg, #ffd9e4 0%, #ffb3cb 100%);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: 1;
+  }
+  .start-overlay.show { display: flex; }
+  .start-overlay.hide {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+  .start-box { padding: 40px; }
+  .start-box .start-emoji {
+    font-size: 72px;
+    display: inline-block;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  .start-box h2 {
+    font-size: 34px;
+    color: var(--deep-700);
+    margin: 14px 0 10px;
+    font-weight: 800;
+  }
+  .start-box p {
+    font-size: 16px;
+    color: #b3567a;
+    margin-bottom: 28px;
+    letter-spacing: 1px;
+  }
+  .start-box .start-btn {
+    background: linear-gradient(135deg, #ff7ba3, #ff4d88);
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 15px 52px;
+    box-shadow: 0 10px 26px rgba(255, 77, 136, 0.42);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .start-box .start-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 32px rgba(255, 77, 136, 0.5); }
+  .start-box .start-btn:active { transform: scale(0.96); }
+
+  /* ---------- 音乐按钮 ---------- */
+  .music-btn {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 20;
+    width: 54px;
+    height: 54px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ff7ba3, #ff4d88);
+    color: #fff;
+    font-size: 24px;
+    box-shadow: 0 8px 20px rgba(255, 77, 136, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .music-btn:hover { transform: scale(1.12); box-shadow: 0 10px 26px rgba(255, 77, 136, 0.55); }
+  .music-btn.playing::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    animation: ring 1.6s ease-out infinite;
+  }
+  @keyframes ring {
+    0% { transform: scale(0.85); opacity: 1; }
+    100% { transform: scale(1.4); opacity: 0; }
+  }
+  .music-btn .icon-static { display: inline; }
+  .music-btn .icon-note { display: none; }
+  .music-btn.playing .icon-static { display: none; }
+  .music-btn.playing .icon-note { display: inline; }
+  .music-tip {
+    position: fixed;
+    top: 150px;
+    right: 18px;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.85);
+    color: var(--rose-600);
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(255, 92, 138, 0.2);
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+  }
+  .music-tip.show { opacity: 1; transform: translateY(0); }
+
+  /* ---------- 音量调节 ---------- */
+  .volume-wrap {
+    position: fixed;
+    top: 84px;
+    right: 18px;
+    z-index: 21;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--pink-200);
+    border-radius: 999px;
+    padding: 8px 14px;
+    box-shadow: 0 8px 20px rgba(255, 92, 138, 0.25);
+    opacity: 0;
+    transform: translateY(-8px) scale(0.9);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .volume-wrap.show { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+  .volume-wrap .vol-icon { font-size: 16px; }
+  .volume-wrap input[type="range"] {
+    width: 110px;
+    accent-color: var(--rose-500);
+    cursor: pointer;
+  }
+
+  /* ---------- 爱心礼花 ---------- */
+  .confetti {
+    position: fixed;
+    top: -10vh;
+    z-index: 10;
+    font-size: 26px;
+    pointer-events: none;
+    animation: confettiFall linear forwards;
+  }
+  @keyframes confettiFall {
+    to { transform: translateY(120vh) rotate(360deg); opacity: 0.9; }
+  }
+
+  /* ---------- 手机适配 ---------- */
+  @media (max-width: 480px) {
+    .card {
+      width: 92vw;
+      padding: 34px 20px 30px;
+      border-radius: 24px;
+    }
+    .emoji-top { font-size: 42px; }
+    h1 { font-size: 27px; }
+    .subtitle { font-size: 14px; margin-bottom: 26px; }
+
+    /* 手机没有鼠标悬停，音量条常驻显示 */
+    .volume-wrap {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+      top: 74px;
+      right: 12px;
+      padding: 6px 12px;
+    }
+    .volume-wrap input[type="range"] { width: 90px; }
+
+    .music-btn { top: 14px; right: 12px; width: 48px; height: 48px; font-size: 20px; }
+    .music-tip { top: 132px; right: 12px; font-size: 11px; }
+
+    .success .big { font-size: 48px; }
+    .success h2 { font-size: 34px; letter-spacing: 2px; }
+    .success p { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-hearts" id="bgHearts"></div>
+
+<!-- 背景音乐：把喜欢的音乐命名为 music.mp3 放到同目录即可 -->
+<audio id="bgMusic" loop preload="auto" src="music.mp3"></audio>
+
+<button class="music-btn" id="musicBtn" aria-label="播放音乐">
+  <span class="icon-note">🎵</span>
+  <span class="icon-static">🔇</span>
+</button>
+<div class="music-tip" id="musicTip">点击播放音乐 ♪</div>
+
+<!-- 音量调节（悬停音乐按钮时出现） -->
+<div class="volume-wrap" id="volumeWrap">
+  <span class="vol-icon" id="volIcon">🔊</span>
+  <input type="range" id="volumeSlider" min="0" max="100" value="70">
+</div>
+
+<!-- 开始播放开场页（浏览器拦截自动播放时显示） -->
+<div class="start-overlay" id="startOverlay">
+  <div class="start-box">
+    <div class="start-emoji">💗</div>
+    <h2>点我开始 ♪</h2>
+    <p>有段音乐想放给你听 🎵</p>
+    <button class="start-btn" id="startBtn">开始</button>
+  </div>
+</div>
+
+<main class="card" id="card">
+  <div class="emoji-top">💝</div>
+  <div class="deco-line">✿ ་༘ ˚ ˚ ₊ ˚ ✿</div>
+  <h1>可以成为我的<br><span class="heartbeat">💗 恋人 💗</span><br>吗？</h1>
+  <p class="subtitle">ฅ՞•ﻌ•՞ฅ 你愿意陪我看遍四季吗 ✿</p>
+
+  <div class="btns">
+    <button class="btn" id="btnYes">可以！💖</button>
+    <button class="btn" id="btnNo">不可以…😢</button>
+  </div>
+
+  <div class="counter-note" id="counterNote">点一下「可以」就是一辈子的事哦～</div>
+
+  <div class="success" id="success">
+    <div class="big">🥰💖🥰</div>
+    <h2><span class="heartbeat">喜欢你！</span></h2>
+    <p>好耶！我们在一起啦 ✧(≖ ◡ ≖✿)</p>
+    <p>从今天起，甜度管够 💕🍬🍭</p>
+    <p style="font-size:14px; color:#c97c9c;">—— 这封信的作者，永远是你的人 🌹</p>
+  </div>
+</main>
+
+<script>
+  // ---------- 背景音乐 ----------
+  const music = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicBtn');
+  const musicTip = document.getElementById('musicTip');
+  const volumeWrap = document.getElementById('volumeWrap');
+  const volumeSlider = document.getElementById('volumeSlider');
+  const volIcon = document.getElementById('volIcon');
+  const startOverlay = document.getElementById('startOverlay');
+  const startBtn = document.getElementById('startBtn');
+  let musicStarted = false;
+
+  function hideOverlay() {
+    startOverlay.classList.add('hide');
+    setTimeout(() => startOverlay.classList.remove('show'), 650);
+  }
+
+  // 页面加载后立即尝试自动播放
+  window.addEventListener('load', () => {
+    music.play().then(() => {
+      musicStarted = true;
+      musicBtn.classList.add('playing');
+      hideOverlay();
+    }).catch(() => {
+      // 浏览器拦截自动播放 → 显示开场页，点一下即开始
+      startOverlay.classList.add('show');
+    });
+  });
+
+  startBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    music.play().then(() => {
+      musicStarted = true;
+      musicBtn.classList.add('playing');
+    }).catch(() => showTip('请打开手机声音 🔊'));
+    hideOverlay();
+  });
+
+  // 音量控制（悬停音乐按钮时显示）
+  music.volume = volumeSlider.value / 100;
+  musicBtn.addEventListener('mouseenter', () => volumeWrap.classList.add('show'));
+  volumeWrap.addEventListener('mouseenter', () => volumeWrap.classList.add('show'));
+  musicBtn.addEventListener('mouseleave', () => volumeWrap.classList.remove('show'));
+  volumeWrap.addEventListener('mouseleave', () => volumeWrap.classList.remove('show'));
+
+  volumeSlider.addEventListener('input', () => {
+    music.volume = volumeSlider.value / 100;
+    volIcon.textContent = volumeSlider.value == 0 ? '🔇' : volumeSlider.value < 50 ? '🔉' : '🔊';
+  });
+
+  function showTip(text) {
+    musicTip.textContent = text;
+    musicTip.classList.add('show');
+    setTimeout(() => musicTip.classList.remove('show'), 2200);
+  }
+
+  function toggleMusic() {
+    if (music.paused) {
+      music.play().then(() => {
+        musicStarted = true;
+        musicBtn.classList.add('playing');
+      }).catch(() => showTip('请点击页面开启声音 🔊'));
+    } else {
+      music.pause();
+      musicBtn.classList.remove('playing');
+    }
+  }
+
+  musicBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMusic();
+  });
+
+  music.addEventListener('error', () => {
+    showTip('未找到音乐文件，把 music.mp3 放到同目录 🎶');
+  }, { once: true });
+
+  // ---------- 背景漂浮爱心 ----------
+  const heartEmojis = ['💗', '💖', '💕', '💘', '🌷', '🌸', '✨', '💝', '🩷'];
+  const bg = document.getElementById('bgHearts');
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElement('span');
+    s.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.fontSize = (16 + Math.random() * 26) + 'px';
+    s.style.animationDuration = (9 + Math.random() * 12) + 's';
+    s.style.animationDelay = (Math.random() * 10) + 's';
+    bg.appendChild(s);
+  }
+
+  // ---------- 逃跑按钮逻辑 ----------
+  const btnYes = document.getElementById('btnYes');
+  const btnNo  = document.getElementById('btnNo');
+  const note   = document.getElementById('counterNote');
+  const success = document.getElementById('success');
+  const card    = document.getElementById('card');
+
+  let noCount = 0;
+  let yesSize = 22;
+
+  const noTexts = [
+    '你认真的吗？😳',
+    '要不要再想想？🤔',
+    '真的不考虑一下嘛？🥺',
+    '我这么可爱！😤',
+    '再给你一次机会！😡',
+    '呜呜呜我太难过了…😭',
+    '你忍心吗？💔',
+    '不可以！不可以！不可以！💢',
+    '…那好吧 🥀',
+  ];
+
+  btnNo.addEventListener('click', () => {
+    noCount++;
+
+    // 「可以」按钮越点越大
+    yesSize = Math.min(yesSize + 4, 120);
+    btnYes.style.fontSize = yesSize + 'px';
+    btnYes.style.padding = (14 + noCount * 3) + 'px ' + (40 + noCount * 6) + 'px';
+
+    // 「不可以」按钮换文案 + 抖动
+    if (noCount < noTexts.length) {
+      btnNo.textContent = noTexts[noCount];
+      btnNo.style.fontSize = Math.max(18 - noCount * 1.5, 12) + 'px';
+      btnNo.style.padding = Math.max(13 - noCount * 0.8, 6) + 'px ' + Math.max(38 - noCount * 3, 14) + 'px';
+      btnNo.classList.remove('btn-no-shake');
+      void btnNo.offsetWidth; // 重启动画
+      btnNo.classList.add('btn-no-shake');
+    } else {
+      // 点到最后：按钮直接跑路变小藏起来
+      btnNo.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+      btnNo.style.transform = 'translate(80px, 40px) rotate(20deg) scale(0.2)';
+      btnNo.style.opacity = '0';
+      btnNo.style.pointerEvents = 'none';
+    }
+
+    // 小字提示
+    const notes = [
+      '再想想嘛～ 🥺',
+      '我可是会伤心的哦 💔',
+      '点「可以」就答应我啦 ❤️',
+      '「可以」越来越大了哦～ 😏',
+      '别倔强了，快答应吧！😆',
+      '我已经把「不可以」藏起来了 🫣',
+    ];
+    note.textContent = notes[Math.min(noCount - 1, notes.length - 1)];
+  });
+
+  // ---------- 成功：变成喜欢你的画面 ----------
+  btnYes.addEventListener('click', () => {
+    document.querySelector('.emoji-top').style.display = 'none';
+    document.querySelector('.deco-line').style.display = 'none';
+    document.querySelector('h1').style.display = 'none';
+    document.querySelector('.subtitle').style.display = 'none';
+    document.querySelector('.btns').style.display = 'none';
+    note.style.display = 'none';
+    success.style.display = 'flex';
+
+    // 爱心礼花
+    const emojis = ['💖', '💘', '💝', '💗', '🌹', '💐', '✨', '🥰'];
+    for (let i = 0; i < 45; i++) {
+      setTimeout(() => {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.fontSize = (18 + Math.random() * 30) + 'px';
+        c.style.animationDuration = (2.5 + Math.random() * 2.5) + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 6000);
+      }, Math.random() * 1200);
+    }
+  });
+</script>
+</body>
+</html>
